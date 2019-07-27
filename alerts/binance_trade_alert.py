@@ -36,7 +36,7 @@ class BinanceTradeAlert:
         self.timer = 10 if self.DEBUG else 0
         self.last_trade_id_set = None
         self.now = self.currentDT = datetime.datetime.now()
-        self.logger = self.create_new_log(f'regime_detection{self.now.strftime("%Y-%m-%d %H:%M:%S")}.log')
+        self.logger = self.create_new_log(f'twitter_alert{self.now.strftime("%Y-%m-%d %H:%M:%S")}.log')
         self.check_twitter_status()
 
     @staticmethod
