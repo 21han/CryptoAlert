@@ -1,6 +1,8 @@
 # Description
 
-An event can take multiple forms. The objective of this repository is to detect an event when it happens. To receive notifications, please check us out on Twitter: [@dat_coder](https://twitter.com/dat_coder)
+An event can take multiple forms. The objective of this repository is to detect an event when it happens. 
+
+To receive notifications, please check us out on Twitter: [@dat_coder](https://twitter.com/dat_coder)
 
 | Alerts | Description | Status | 
 | --- | --- | --- |
