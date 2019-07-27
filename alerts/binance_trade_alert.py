@@ -95,7 +95,8 @@ class BinanceTradeAlert:
             f'{dollar_msg} in {self.tick_rate/60} minutes'
         if severity_ratio >= self.trigger_ratio:
             print(msg)
-            self.publish_tweet(msg)
+            if not self.DEBUG:
+                self.publish_tweet(msg)
 
     @staticmethod
     def publish_tweet(msg):
