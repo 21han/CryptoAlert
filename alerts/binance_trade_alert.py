@@ -4,6 +4,11 @@ from str2bool import str2bool
 import time
 import tweepy
 import os
+import inspect
+import cowsay
+import datetime
+import logging
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--debug", type=str2bool, nargs='?', const=True, default=True, help="Activate nice mode.")
@@ -30,9 +35,33 @@ class BinanceTradeAlert:
     def __init__(self):
         self.timer = 10 if self.DEBUG else 0
         self.last_trade_id_set = None
+        self.now = self.currentDT = datetime.datetime.now()
+        self.logger = self.create_new_log(f'regime_detection{self.now.strftime("%Y-%m-%d %H:%M:%S")}.log')
         self.check_twitter_status()
 
-    def check_twitter_status(self):
+    @staticmethod
+    def create_new_log(name):
+        """
+        create a new logger for the current application
+        reference: https://docs.python.org/3/howto/logging-cookbook.html
+        :param name: string, the name of the logging application
+        :return:
+        """
+        logger = logging.getLogger(name)
+        logger.setLevel(logging.DEBUG)
+        fh = logging.FileHandler(name)
+        fh.setLevel(logging.DEBUG)
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.ERROR)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        fh.setFormatter(formatter)
+        ch.setFormatter(formatter)
+        logger.addHandler(fh)
+        logger.addHandler(ch)
+        return logger
+
+    @staticmethod
+    def check_twitter_status():
         assert(api.verify_credentials() is not False)
         print("twitter credentials verified...")
 
@@ -75,14 +104,23 @@ class BinanceTradeAlert:
     def alert(self):
         counter = 0
         while not self.DEBUG or counter < self.timer:
+            now = datetime.datetime.now()
+            self.logger.info(f'{now}')
             counter += 1
             time.sleep(self.tick_rate)
             for asset in self.asset_list:
                 dollars = self.get_dollars_in_middle_optimized(asset)
+                self.logger.info(f'{dollars}')
                 self.check_spike_alert(dollars, asset)
 
 
 if __name__ == "__main__":
     client = Client("", "")
+    attributes = inspect.getmembers(BinanceTradeAlert, lambda a: not (inspect.isroutine(a)))
+    attributes_filtered = [a for a in attributes if not(a[0].startswith('__') and a[0].endswith('__'))]
+    cowsay.cheese("Make some gold -- Alchemist")
+    print("________| * job configuration * |________")
+    for (k, v) in attributes_filtered:
+        print(f'{k} = {v}')
     program = BinanceTradeAlert()
     program.alert()
