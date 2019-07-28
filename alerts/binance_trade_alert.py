@@ -26,7 +26,7 @@ class BinanceTradeAlert:
     asset_list = ["BTCUSDT"]
     DEBUG = args.debug
     tick_rate = 60   # in seconds
-    trigger_ratio = 1
+    trigger_ratio = 0.2
     binance_bot_message = "binance volume alert - robot - "
     spike_threshold_table = {
         "BTCUSDT": 10**6
@@ -93,9 +93,11 @@ class BinanceTradeAlert:
         dollar_msg = '${:,.2f} traded'.format(dollar)
         msg = self.binance_bot_message + f'severity level - {severity_ratio}\n' \
             f'{dollar_msg} in {self.tick_rate/60} minutes'
+        print(severity_ratio, self.trigger_ratio)
         if severity_ratio >= self.trigger_ratio:
             print(msg)
-            self.publish_tweet(msg)
+            if not self.DEBUG:
+                self.publish_tweet(msg)
 
     @staticmethod
     def publish_tweet(msg):
@@ -105,7 +107,7 @@ class BinanceTradeAlert:
         counter = 0
         while not self.DEBUG or counter < self.timer:
             now = datetime.datetime.now()
-            self.logger.info(f'{now}')
+            print(now)
             counter += 1
             time.sleep(self.tick_rate)
             for asset in self.asset_list:
