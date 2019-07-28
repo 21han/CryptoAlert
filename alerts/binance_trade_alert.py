@@ -12,6 +12,7 @@ import logging
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--debug", type=str2bool, nargs='?', const=True, default=True, help="Activate nice mode.")
+parser.add_argument("--ratio", type=float, nargs='?', const=True, default=1, help="Activate nice mode.")
 args = parser.parse_args()
 auth = tweepy.OAuthHandler(os.environ['consumer_api_key'], os.environ['consumer_api_secret'])
 auth.set_access_token(os.environ['access_token'], os.environ['access_token_secret'])
@@ -23,10 +24,11 @@ api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
 
 class BinanceTradeAlert:
+    # TODO add dynamic computation i.e. at given time, compute history median(vol)
     asset_list = ["BTCUSDT"]
     DEBUG = args.debug
     tick_rate = 60   # in seconds
-    trigger_ratio = 0.2
+    trigger_ratio = args.ratio
     binance_bot_message = "binance volume alert - robot - "
     spike_threshold_table = {
         "BTCUSDT": 10**6
