@@ -6,7 +6,7 @@ An event can take multiple forms. The objective of this repository is to detect 
 
 To receive notifications, please check us out on Twitter: [@dat_coder](https://twitter.com/dat_coder).
 
-**note**: the twitter account is not fully ready because of low momentums in the signal producing, actively seek for collaborators for both co-managing twitter account and manage this repository. When there are enough people contributing, new slack workspace can be created.
+**note**: the twitter account is not fully ready because of low momentum inside the team right now. We are currently actively seeking for collaborators for both co-managing twitter account and co-managing this repository. When there are enough people contributing, new slack workspace can be created.
 
 # Alert Status
 
